@@ -563,15 +563,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     submitBtn.disabled=true;
     submitBtn.textContent='Enviando...';
 
-    var seg=SEGMENTO||Array.from(segmentos).map(function(c){return c.value;}).join(', ');
-    var data={
-      nome:nome,
-      telefone:document.getElementById('telefone').value,
-      email:email,
-      segmento:seg,
-      area:Array.from(areas).map(function(c){return c.value;}).join(', '),
-      pagina:PAGE
-    };
+var seg=SEGMENTO||Array.from(segmentos).map(function(c){return c.value;}).join(', ');
+      function getParam(p){return new URLSearchParams(window.location.search).get(p)||'';}
+      var data={
+        nome:nome,
+        telefone:document.getElementById('telefone').value,
+        email:email,
+        segmento:seg,
+        area:Array.from(areas).map(function(c){return c.value;}).join(', '),
+        pagina:PAGE,
+        utm_source:getParam('utm_source'),
+        utm_medium:getParam('utm_medium'),
+        utm_campaign:getParam('utm_campaign'),
+        utm_content:getParam('utm_content'),
+        utm_term:getParam('utm_term')
+      };
 
     var webhookUrl='https://hook.us2.make.com/897e3ppgqcnqfmt7cjkconaow7pidgea';
     fetch(webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
